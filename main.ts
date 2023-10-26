@@ -17,15 +17,15 @@ function doPost(e: GoogleAppsScript.Events.DoPost) {
   } 
 
   switch (messageText) {
-    case "問題": {
+    case "問題":
       const message = randomPuzzle(sheet)
       reply(message, reply_token)
-    }
-    case "正解": {
+      break;
+    case "正解":
       const solveMessage = resolvePuzzle(sheet)
       const nextMessage = randomPuzzle(sheet)
       reply(solveMessage + nextMessage, reply_token)
-    }
+      break;
   }
 }
 
