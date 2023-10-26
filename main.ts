@@ -26,6 +26,10 @@ function doPost(e: GoogleAppsScript.Events.DoPost) {
       const nextMessage = randomPuzzle(sheet)
       reply(solveMessage + nextMessage, reply_token)
       break;
+    case "記録":
+      const countMessage = countSolved(sheet)
+      reply(countMessage, reply_token)
+      break;
   }
 }
 
@@ -55,6 +59,12 @@ function randomPuzzle(sheet: GoogleAppsScript.Spreadsheet.Sheet): string {
   sheet.getRange(nextPuzzle, 3).setValue(NOW_SOLVING)
 
   return `${nextPuzzle}問目\nhttps://wandsbox125.web.app/puzzle-tools/hex-editor/10000.html?id=${nextPuzzle}`
+}
+
+function countSolved(sheet: GoogleAppsScript.Spreadsheet.Sheet): string {
+  const rows = sheet.getRange("A1:B10000").getValues();
+  const solved = rows.filter(row => row[1] == SOLVED).map(row => row[0]).length
+  return `正解数: ${solved}/10000問`
 }
 
 function reply(message: string, token: string) {
